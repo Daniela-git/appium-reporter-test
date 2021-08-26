@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@wdio/cli": "^7.10.1"
+    "@wdio/cli": "^7.10.1",
+    "@wdio/reporter": "^7.10.1"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",

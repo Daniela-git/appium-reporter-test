@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "types": ["node", "webdriverio/async", "@wdio/mocha-framework", "@wdio/appium-service"]
+    "target": "ES2017",
+    "module": "commonjs",
+    "lib": [
+        "es5",
+        "es6",
+        "dom"
+      ],
+    "types": ["node", "webdriverio/async", "@wdio/mocha-framework", "@wdio/appium-service","@wdio/reporter"]
   }
 }

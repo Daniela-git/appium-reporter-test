@@ -1,3 +1,4 @@
+const CustomReporter = require('./reporter/custom.reporter');
 let { join } = require('path');
 export const config: WebdriverIO.Config = {
   //
@@ -136,7 +137,15 @@ export const config: WebdriverIO.Config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec'],
+  reporters: [
+    [
+      CustomReporter,
+      {
+        someOption: 'foobar',
+      },
+    ],
+  ],
+  // reporters: ['spec'],
 
   //
   // Options to be passed to Mocha.
