@@ -4,10 +4,10 @@ const { expect } = require('chai');
 describe('test offline devices', () => {
   let offlineDevice: OfflineDevice = new OfflineDevice();
   let alerts: Alerts = new Alerts();
-  before(async () => {
+  beforeEach(async () => {
     await offlineDevice.turnOffConnection();
   });
-  it('the device should not has no connection', async () => {
+  it("the device should't has connection", async () => {
     expect(await driver.getNetworkConnection()).to.equal(0);
   });
 

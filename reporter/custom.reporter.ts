@@ -7,26 +7,26 @@ import WDIOReporter, {
 module.exports = class CustomReporter extends WDIOReporter {
   constructor(options: any) {
     super(options);
-    console.log(options);
+    console.log('The report starts here');
   }
-  onTestPass(pass: TestStats) {
-    console.log(`${pass.title} ---- ${pass.state}`);
+  onTestPass(test: TestStats) {
+    console.log(`${test.title} ---- ${test.state}`);
   }
   onTestFail(test: TestStats) {
-    console.log(test.title);
+    console.log(`${test.title} HAS AN ERROR (T.T)`);
     console.log(`This is the error ${test.error}`);
   }
-  onTestEnd(end: TestStats) {
-    this.write(`\n ${end.title} ------- ${end.state}`);
+  onTestEnd(test: TestStats) {
+    this.write(`\n ${test.title} ------- ${test.state}`);
   }
-  onSuiteEnd(test: SuiteStats) {
-    console.log(test.title);
-    test.tests.forEach((element) => {
-      console.log(`${element.title}-----${element.state}`);
+  onSuiteEnd(suit: SuiteStats) {
+    console.log(suit.title);
+    suit.tests.forEach((test) => {
+      console.log(`${test.title}-----${test.state}`);
     });
   }
-  onRunnerEnd(test: RunnerStats) {
-    console.log(test.specs);
-    console.log(test.failures);
+  onRunnerEnd(runner: RunnerStats) {
+    console.log(runner.specs);
+    console.log(runner.failures);
   }
 };
