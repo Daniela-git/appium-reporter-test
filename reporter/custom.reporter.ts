@@ -4,29 +4,61 @@ import WDIOReporter, {
   TestStats,
 } from '@wdio/reporter';
 
+const agent = require('superagent');
+const userName = 'Daniela-git';
+const repoName = 'appium-reporter-test';
+const urlBase = 'https://api.github.com';
+const url = `${urlBase}/repos/${userName}/${repoName}/issues`;
+
+interface dataToShare {
+  uid: string;
+  suitTitle: string;
+  testTitle: string;
+  state: string;
+  retries: number;
+  error: string | undefined;
+  file: string;
+}
 module.exports = class CustomReporter extends WDIOReporter {
   constructor(options: any) {
     super(options);
-    console.log('The report starts here');
-  }
-  onTestPass(test: TestStats) {
-    console.log(`${test.title} ---- ${test.state}`);
-  }
-  onTestFail(test: TestStats) {
-    console.log(`${test.title} HAS AN ERROR (T.T)`);
-    console.log(`This is the error ${test.error}`);
-  }
-  onTestEnd(test: TestStats) {
-    this.write(`\n ${test.title} ------- ${test.state}`);
   }
   onSuiteEnd(suit: SuiteStats) {
     console.log(suit.title);
-    suit.tests.forEach((test) => {
-      console.log(`${test.title}-----${test.state}`);
+    suit.tests.forEach(async (test) => {
+      await this.sendTestResults(url, test);
     });
   }
-  onRunnerEnd(runner: RunnerStats) {
-    console.log(runner.specs);
-    console.log(runner.failures);
+  // onRunnerEnd(runner: RunnerStats) {
+  //   const suits = this.suites;
+  //   for (const uid in suits) {
+  //     const suit = suits[uid];
+  //     const suitTests = suit.tests;
+  //     suitTests.forEach(async (test) => {
+  //       if (test.state == 'failed') {
+  //         const data: dataToShare = {
+  //           uid: suit.uid,
+  //           suitTitle: suit.title,
+  //           testTitle: test.title,
+  //           state: test.state,
+  //           retries: test.retries,
+  //           error: test.error.stack,
+  //           file: suit.file,
+  //         };
+  //         await this.sendTestResults(url, data);
+  //       }
+  //     });
+  //   }
+  // }
+
+  async sendTestResults(url: string, test: TestStats) {
+    await agent
+      .post(url)
+      .auth('token', process.env.ACCESS_TOKEN)
+      .set('User-Agent', 'agent')
+      .send({
+        title: `${test.fullTitle}`,
+        body: `title: ${test.title}, \n state: ${test.state}, \n retires: ${test.state}, \n error: ${test.error.stack}`,
+      });
   }
 };
