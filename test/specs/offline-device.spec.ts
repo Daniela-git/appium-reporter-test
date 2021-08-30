@@ -18,7 +18,7 @@ describe('test offline devices', () => {
       await alerts.alertDialog.click();
     });
     it('the device should has data', async () => {
-      expect(await driver.getNetworkConnection()).to.equal(2);
+      expect(await driver.getNetworkConnection()).to.equal(4);
     });
   });
 });

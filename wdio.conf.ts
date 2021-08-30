@@ -26,14 +26,7 @@ export const config: WebdriverIO.Config = {
   connectionRetryCount: 3,
   services: ['appium'],
   framework: 'mocha',
-  reporters: [
-    [
-      CustomReporter,
-      {
-        someOption: 'foobar',
-      },
-    ],
-  ],
+  reporters: [CustomReporter],
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000,
