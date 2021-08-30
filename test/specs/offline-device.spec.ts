@@ -1,5 +1,5 @@
 import { Alerts, OfflineDevice } from '../../pageObject';
-const { expect } = require('chai');
+const { expect, assert } = require('chai');
 
 describe('test offline devices', () => {
   let offlineDevice: OfflineDevice = new OfflineDevice();
@@ -18,7 +18,14 @@ describe('test offline devices', () => {
       await alerts.alertDialog.click();
     });
     it('the device should has data', async () => {
-      expect(await driver.getNetworkConnection()).to.equal(4);
+      expect(await driver.getNetworkConnection()).to.equal(2);
     });
+    it('get the title', async () => {
+      assert.include(await alerts.getTitle, 'App/Alert Dialogs');
+    });
+  });
+
+  afterEach(async () => {
+    await driver.reset();
   });
 });
