@@ -17,7 +17,7 @@ interface dataToShare {
   testTitle: string;
   state: string;
   retries: number;
-  error: Error | undefined;
+  error: string | undefined;
   file: string;
 }
 module.exports = class CustomReporter extends WDIOReporter {
@@ -30,7 +30,6 @@ module.exports = class CustomReporter extends WDIOReporter {
     this.write(test.title);
   }
   async onSuiteEnd(suit: SuiteStats) {
-    this.write(suit.title);
     suit.tests.forEach(async (test) => {
       const data: dataToShare = {
         uid: suit.uid,
@@ -38,9 +37,13 @@ module.exports = class CustomReporter extends WDIOReporter {
         testTitle: test.title,
         state: test.state,
         retries: test.retries,
-        error: test.error,
+        error: undefined,
         file: suit.file,
       };
+      if (test.error != undefined) {
+        data.error = test.error.stack;
+      }
+
       await this.sendTestResults(url, data);
     });
   }
@@ -52,7 +55,7 @@ module.exports = class CustomReporter extends WDIOReporter {
       .set('User-Agent', 'agent')
       .send({
         title: `${test.suitTitle} ${test.testTitle}`,
-        body: `uid: ${test.uid}, \n suit title: ${test.suitTitle}, \n test title: ${test.testTitle},\n state: ${test.state}, \n retires: ${test.state}, \n file: ${test.file}, \n error: ${test.error}`,
+        body: `uid: ${test.uid}, \n suit title: ${test.suitTitle}, \n test title: ${test.testTitle},\n state: ${test.state}, \n retries: ${test.state}, \n file: ${test.file}, \n error: ${test.error}`,
       })
       .then((res) => console.log(res.status));
   }
