@@ -13,6 +13,7 @@ export const config: WebdriverIO.Config = {
       maxInstances: 5,
       platformName: 'Android',
       'appium:deviceName': 'Pixel',
+      'appium:platformVersion': '11.0',
       'appium:app': join(process.cwd() + '/ApiDemos-debug.apk'),
       'appium:newCommandTimeout': 300000,
     },
@@ -26,14 +27,7 @@ export const config: WebdriverIO.Config = {
   connectionRetryCount: 3,
   services: ['appium'],
   framework: 'mocha',
-  reporters: [
-    [
-      CustomReporter,
-      {
-        someOption: 'foobar',
-      },
-    ],
-  ],
+  reporters: [CustomReporter],
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000,

@@ -3,6 +3,7 @@ import WDIOReporter, {
   SuiteStats,
   TestStats,
 } from '@wdio/reporter';
+import { Test } from 'mocha';
 
 const agent = require('superagent');
 const userName = 'Daniela-git';
@@ -21,15 +22,12 @@ interface dataToShare {
 }
 module.exports = class CustomReporter extends WDIOReporter {
   constructor(options: any) {
+    options = Object.assign(options, { stdout: true });
     super(options);
     console.log('The report starts here');
   }
-  onTestPass(test: TestStats) {
-    console.log(`${test.title} ---- ${test.state}`);
-  }
   onTestFail(test: TestStats) {
-    console.log(`${test.title} HAS AN ERROR (T.T)`);
-    console.log(`This is the error ${test.error}`);
+    this.write(test.title);
   }
   async onSuiteEnd(suit: SuiteStats) {
     suit.tests.forEach(async (test) => {

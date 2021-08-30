@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "@wdio/cli": "^7.10.1",
-    "@wdio/reporter": "^7.10.1"
+    "@wdio/reporter": "^7.10.1",
+    "superagent": "^6.1.0",
+    "superagent-promise": "^1.1.0"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",

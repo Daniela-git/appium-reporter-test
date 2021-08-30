@@ -6,4 +6,7 @@ export class Alerts {
   get alertDialog() {
     return $('~Alert Dialogs');
   }
+  get getTitle() {
+    return $('.android.widget.TextView').getText();
+  }
 }
